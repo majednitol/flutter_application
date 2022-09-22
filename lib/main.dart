@@ -1,168 +1,105 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
     title: "Loteray App",
-    home: const HomePage(),
+    home: const LotteryApp(),
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(primarySwatch: Colors.purple),
+    theme: ThemeData(primarySwatch: Colors.red),
   ));
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class LotteryApp extends StatefulWidget {
+  const LotteryApp({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LotteryApp> createState() => _LotteryAppState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LotteryAppState extends State<LotteryApp> {
+  Random random = Random();
+  int x = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Column(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'LotteryApp',
+          style: TextStyle(fontFamily: 'Pacifico'),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage("Assets/logo.png")),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Maintenance",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    Text("Box",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xffF97038)))
-                  ],
-                )
-              ],
+            const Text(
+              "Lottery winning number is 4",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 15,
+              height: 20,
             ),
-            Column(
-              children: [
-                const Center(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+            Container(
+                height: 270,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.amber[50],
                 ),
-                const SizedBox(
-                  height: 13,
-                ),
-                const Center(
-                  child: Text(
-                    "Lorem ipsum dolor sit amet  non \n mi port  auctor et magn  id elit fdf",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                  ),
-                ),
-                const SizedBox(
-                  height: 100,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Email",
-                        fillColor: Colors.black45,
-                        filled: true,
-                        prefixIcon: const Icon(
-                          Icons.email_outlined,
-                          color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: x == 4
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.done_all_outlined,
+                              color: Colors.green,
+                              size: 35,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "congratulation you have won the lottery!",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                              size: 35,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Better luck next time your number is $x. \ntry again",
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        iconColor: Colors.black,
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Color(0xffF97038)),
-                            borderRadius: BorderRadius.circular(10)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Color(0xffF97038)),
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        hintText: "Password",
-                        fillColor: Colors.black45,
-                        filled: true,
-                        prefixIcon: const Icon(
-                          Icons.password_outlined,
-                          color: Colors.black,
-                        ),
-                        suffixIcon: const Icon(
-                          Icons.visibility_off_outlined,
-                          color: Colors.black,
-                        ),
-                        iconColor: Colors.black,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Color(0xffF97038)),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Color(0xffF97038)),
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ),
-                const SizedBox(height: 100),
-                Container(
-                  height: 50,
-                  width: 330,
-                  decoration: BoxDecoration(
-                      color: const Color(0xffF97038),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Center(
-                    child: Text("Login",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("Don't have an account"),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Sign up",
-                      style: TextStyle(
-                          color: Color(0xffF97038),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                ))
           ],
-        )),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() {
+          x = random.nextInt(10);
+          setState(() {});
+        }),
+        child: const Icon(Icons.refresh_outlined),
       ),
     );
   }
