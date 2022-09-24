@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/listTile_Widget.dart';
-import 'package:flutter_application/stack_widget.dart';
-import 'package:flutter_application/textFormFieldWidget.dart';
-
-import 'circleAvtar_widget.dart';
+import 'package:flutter_application/home_sceen.dart';
+import 'package:flutter_application/screen_two.dart';
 
 void main() {
   runApp(MaterialApp(
-    title: "Top ten widget",
-    home: const ListTileWidget(),
+    initialRoute: HomeSceen.id,
+    theme: ThemeData(primarySwatch: Colors.purple),
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(primarySwatch: Colors.red),
+    routes: {
+      HomeSceen.id: (context) => const HomeSceen(),
+      ScreenTwo.id: (context) => const ScreenTwo(),
+    },
+    home: const HomeSceen(),
+    title: "Flutter Application",
   ));
 }
