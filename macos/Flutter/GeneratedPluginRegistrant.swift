@@ -2,7 +2,7 @@
 //  Generated file. Do not edit.
 //
 
-import FlutterMacOS
+ import FlutterMacOS
 import Foundation
 
 import shared_preferences_macos
