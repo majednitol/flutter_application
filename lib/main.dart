@@ -9,7 +9,7 @@ void main() async {
     title: "Loteray App",
     home: const SplashScreen(),
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(primarySwatch: Colors.purple),
+    theme: ThemeData(primarySwatch: Colors.amber),
   ));
 }
 
