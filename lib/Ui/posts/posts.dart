@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/Ui/posts/add_post.dart';
 import 'package:flutter_application/Ui/utils.dart';
@@ -64,81 +65,119 @@ class _PostsState extends State<Posts> {
           ),
         ),
 
-        // Expanded(
-        //   child: FirebaseAnimatedList(
-        //     query: databaseref,
-        //     defaultChild: const Text("loading"),
-        //     itemBuilder: (context, snapshot, animation, index) {
-        //       return ListTile(
-        //         title: Text(snapshot.child("title").value.toString()),
-        //         subtitle: Text(snapshot.child("id").value.toString()),
-        //       );
-        //     },
-        //   ),
-        // ),
         Expanded(
-          child: StreamBuilder(
-            stream: databaseref.onValue,
-            builder:
-                (BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                Map<dynamic, dynamic> map =
-                    snapshot.data!.snapshot.value as dynamic;
-                List<dynamic> list = [];
-                list.clear();
-                list = map.values.toList();
-                return ListView.builder(
-                  itemCount: snapshot.data!.snapshot.children.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final title = list[index]['title'].toString();
-                    final id = list[index]['id'].toString();
-                    if (searchFilter.text.isEmpty) {
-                      return ListTile(
-                        title: Text(list[index]['title'].toString()),
-                        subtitle: Text(list[index]['id'].toString()),
-                        trailing: PopupMenuButton(
-                            icon: const Icon(Icons.more_vert),
-                            itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                      value: 1,
-                                      child: ListTile(
-                                        onTap: (() {
-                                          Navigator.pop(context);
-                                          showMyDialog(title, id);
-                                        }),
-                                        trailing: const Icon(Icons.edit),
-                                        title: const Text("Edit"),
-                                      )),
-                                  PopupMenuItem(
-                                      value: 1,
-                                      child: ListTile(
-                                        onTap: (() {
-                                          Navigator.pop(context);
-                                          databaseref.child(id).remove();
-                                        }),
-                                        trailing: const Icon(Icons.delete),
-                                        title: const Text("Delete"),
-                                      ))
-                                ]),
-                      );
-                    } else if (title
-                        .toLowerCase()
-                        .contains(searchFilter.text.toLowerCase())) {
-                      return ListTile(
-                        title: Text(list[index]['title'].toString()),
-                        subtitle: Text(list[index]['id'].toString()),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
+          child: FirebaseAnimatedList(
+            query: databaseref,
+            defaultChild: const Center(child: CircularProgressIndicator()),
+            itemBuilder: (context, snapshot, animation, index) {
+              final title = snapshot.child("title").value.toString();
+              final id = snapshot.child("id").value.toString();
+
+              if (searchFilter.text.isEmpty) {
+                return ListTile(
+                  title: Text(snapshot.child("title").value.toString()),
+                  subtitle: Text(snapshot.child("id").value.toString()),
+                  trailing: PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      itemBuilder: (context) => [
+                            PopupMenuItem(
+                                value: 1,
+                                child: ListTile(
+                                  onTap: (() {
+                                    Navigator.pop(context);
+                                    showMyDialog(title, id);
+                                  }),
+                                  trailing: const Icon(Icons.edit),
+                                  title: const Text("Edit"),
+                                )),
+                            PopupMenuItem(
+                                value: 1,
+                                child: ListTile(
+                                  onTap: (() {
+                                    Navigator.pop(context);
+                                    databaseref.child(id).remove();
+                                  }),
+                                  trailing: const Icon(Icons.delete),
+                                  title: const Text("Delete"),
+                                ))
+                          ]),
                 );
+              } else if (title
+                  .toLowerCase()
+                  .contains(searchFilter.text.toLowerCase())) {
+                return ListTile(
+                  title: Text(snapshot.child("title").value.toString()),
+                  subtitle: Text(snapshot.child("id").value.toString()),
+                );
+              } else {
+                return Container();
               }
             },
           ),
         ),
+        // Expanded(
+        //   child: StreamBuilder(
+        //     stream: databaseref.onValue,
+        //     builder:
+        //         (BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
+        //       if (!snapshot.hasData) {
+        //         return const Center(child: CircularProgressIndicator());
+        //       } else {
+        //         Map<dynamic, dynamic> map =
+        //             snapshot.data!.snapshot.value as dynamic;
+        //         List<dynamic> list = [];
+        //         list.clear();
+        //         list = map.values.toList();
+        //         // return ListView.builder(
+        //         //   itemCount: snapshot.data!.snapshot.children.length,
+        //         //   itemBuilder: (BuildContext context, int index) {
+        //         //     final title = list[index]['title'].toString();
+        //         //     final id = list[index]['id'].toString();
+        //         //     if (searchFilter.text.isEmpty) {
+        //         //       return ListTile(
+        //         //         title: Text(list[index]['title'].toString()),
+        //         //         subtitle: Text(list[index]['id'].toString()),
+        //         //         trailing: PopupMenuButton(
+        //         //             icon: const Icon(Icons.more_vert),
+        //         //             itemBuilder: (context) => [
+        //         //                   PopupMenuItem(
+        //         //                       value: 1,
+        //         //                       child: ListTile(
+        //         //                         onTap: (() {
+        //         //                           Navigator.pop(context);
+        //         //                           showMyDialog(title, id);
+        //         //                         }),
+        //         //                         trailing: const Icon(Icons.edit),
+        //         //                         title: const Text("Edit"),
+        //         //                       )),
+        //         //                   PopupMenuItem(
+        //         //                       value: 1,
+        //         //                       child: ListTile(
+        //         //                         onTap: (() {
+        //         //                           Navigator.pop(context);
+        //         //                           databaseref.child(id).remove();
+        //         //                         }),
+        //         //                         trailing: const Icon(Icons.delete),
+        //         //                         title: const Text("Delete"),
+        //         //                       ))
+        //         //                 ]),
+        //         //       );
+        //         //     } else if (title
+        //         //         .toLowerCase()
+        //         //         .contains(searchFilter.text.toLowerCase())) {
+        //         //       return ListTile(
+        //         //         title: Text(list[index]['title'].toString()),
+        //         //         subtitle: Text(list[index]['id'].toString()),
+        //         //       );
+        //         //     } else {
+        //         //       return Container();
+        //         //     }
+        //         //   },
+        //         // );
+        //       }
+        //     },
+        //   ),
+        // ),
       ]),
     );
   }
