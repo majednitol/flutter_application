@@ -1,0 +1,5 @@
+Serialization 
+object(class)  ---> Map --> Json(encode)
+
+Deserialization 
+Json(decode) --> Map --> object
